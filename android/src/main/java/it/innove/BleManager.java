@@ -251,6 +251,27 @@ class BleManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    private void refreshDevicesCache(String peripheralUUID, Callback callback) {
+        Log.d(LOG_TAG, "refreshDevicesCache : " + peripheralUUID);
+
+        Peripheral peripheral = retrieveOrCreatePeripheral(peripheralUUID);
+        if (peripheral == null) {
+            callback.invoke("refreshDevicesCache : Invalid peripheral uuid");
+            return;
+        } else {
+            try {
+                Method m = peripheral.getDevice().getClass().getMethod("refresh");
+                m.invoke(peripheral.getDevice());
+                Log.d(LOG_TAG, "refreshDevicesCache : OK ! " + peripheralUUID);
+                return;
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "refreshDevicesCache : ERROR " + peripheralUUID, e);
+                callback.invoke("refreshDevicesCache fail");
+            }
+        }
+    }
+
+    @ReactMethod
     private void removeBond(String peripheralUUID, Callback callback) {
         Log.d(LOG_TAG, "Remove bond to: " + peripheralUUID);
 
