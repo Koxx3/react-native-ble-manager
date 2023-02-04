@@ -3,6 +3,7 @@ package it.innove;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
@@ -251,22 +252,39 @@ class BleManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    private void refreshCacheDevices(String peripheralUUID, Callback callback) {
+        Log.d(LOG_TAG, "BleManager.java.refreshCacheDevices : " + peripheralUUID);
+
+        Peripheral peripheral = retrieveOrCreatePeripheral(peripheralUUID);
+        if (peripheral == null) {
+            callback.invoke("BleManager.java.refreshCacheDevices : Invalid peripheral uuid");
+        } else {
+            // Object res = peripheral.refreshCache(callback);
+            peripheral.refreshCache(callback);
+            // callback.invoke(null, true);
+            Log.d(LOG_TAG, "BleManager.java.refreshCacheDevices : return");
+            return;
+        }
+    }
+
+    @ReactMethod
     private void removeBond(String peripheralUUID, Callback callback) {
         Log.d(LOG_TAG, "Remove bond to: " + peripheralUUID);
 
         Peripheral peripheral = retrieveOrCreatePeripheral(peripheralUUID);
         if (peripheral == null) {
-            callback.invoke("Invalid peripheral uuid");
+            callback.invoke("Remove bond : Invalid peripheral uuid");
             return;
         } else {
             try {
                 Method m = peripheral.getDevice().getClass().getMethod("removeBond", (Class[]) null);
                 m.invoke(peripheral.getDevice(), (Object[]) null);
                 removeBondRequest = new BondRequest(peripheralUUID, callback);
+                Log.d(LOG_TAG, "Remove bond : ok " + peripheralUUID);
                 return;
             } catch (Exception e) {
-                Log.d(LOG_TAG, "Error in remove bond: " + peripheralUUID, e);
-                callback.invoke("Remove bond request fail");
+                Log.e(LOG_TAG, "Error in remove bond: " + peripheralUUID, e);
+                callback.invoke("Remove bond : Remove bond request fail");
             }
         }
 
@@ -407,16 +425,6 @@ class BleManager extends ReactContextBaseJavaModule {
             peripheral.retrieveServices(callback);
         } else
             callback.invoke("Peripheral not found", null);
-    }
-
-    @ReactMethod
-    public void refreshCache(String deviceUUID, Callback callback) {
-        Log.d(LOG_TAG, "Refershing cache for: " + deviceUUID);
-        Peripheral peripheral = peripherals.get(deviceUUID);
-        if (peripheral != null) {
-            peripheral.refreshCache(callback);
-        } else
-            callback.invoke("Peripheral not found");
     }
 
     @ReactMethod
