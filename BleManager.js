@@ -37,12 +37,34 @@ class BleManager {
   }
 
   refreshCache(peripheralId) {
+    console.log("BleManager.js.refreshCache");
     return new Promise((fulfill, reject) => {
       bleManager.refreshCache(peripheralId, (error, result) => {
         if (error) {
           reject(error);
         } else {
-          fulfill(result);
+          if (result != null) {
+            fulfill(result);
+          } else {
+            fulfill([]);
+          }
+        }
+      });
+    });
+  }
+
+  refreshCacheDevices(peripheralId) {
+    console.log("BleManager.js.refreshCacheDevices");
+    return new Promise((fulfill, reject) => {
+      bleManager.refreshCacheDevices(peripheralId, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (result != null) {
+            fulfill(result);
+          } else {
+            fulfill([]);
+          }
         }
       });
     });
@@ -142,6 +164,7 @@ class BleManager {
       });
     });
   }
+
 
   removeBond(peripheralId) {
     return new Promise((fulfill, reject) => {

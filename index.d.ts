@@ -111,6 +111,7 @@ declare module "react-native-ble-manager" {
   export function enableBluetooth(): Promise<void>;
   // [Android only]
   export function refreshCache(peripheralID: string): Promise<void>;
+  export function refreshCacheDevices(peripheralID: string): Promise<void>;
   // [Android only API 21+]
   export function requestMTU(peripheralID: string, mtu: number): Promise<number>;
 
