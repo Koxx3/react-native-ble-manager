@@ -777,7 +777,7 @@ public class Peripheral extends BluetoothGattCallback {
 				boolean res = ((Boolean) localMethod.invoke(gatt, new Object[0])).booleanValue();
 				Log.d(BleManager.LOG_TAG, "Peripheral.java.refreshCache : res = " + res);
 				callback.invoke(null, res);
-				Log.e(BleManager.LOG_TAG, "Peripheral.java.refreshCache : callback 1 invoked.");
+				Log.d(BleManager.LOG_TAG, "Peripheral.java.refreshCache : callback 1 invoked.");
 			} else {
 				Log.e(BleManager.LOG_TAG, "Peripheral.java.refreshCache : not method.");
 				callback.invoke("Could not refresh cache for device.");
