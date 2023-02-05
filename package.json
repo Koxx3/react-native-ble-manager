@@ -6,10 +6,10 @@
   "types": "./index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/innoveit/react-native-ble-manager.git"
+    "url": "https://github.com/Koxx3/react-native-ble-manager.git"
   },
   "bugs": {
-    "url": "https://github.com/innoveit/react-native-ble-manager/issues"
+    "url": "https://github.com/Koxx3/react-native-ble-manager/issues"
   },
   "keywords": [
     "react-native",
@@ -22,7 +22,7 @@
   "license": "Apache-2.0",
   "author": {
     "name": "Innove",
-    "url": "https://github.com/innoveit"
+    "url": "https://github.com/Koxx3"
   },
   "scripts": {
     "version": "git add -A",
